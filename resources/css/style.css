@@ -1,0 +1,55 @@
+html, body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	margin: 0;
+	padding: 0;
+	background: rgb(50,50,50);
+}
+
+a {
+	text-decoration: none;
+	color: rgb(156,0,75);
+}
+
+header {
+	position: relative;
+	background-color: rgb(30,30,30);
+}
+
+header h1 {
+	margin: 0;
+	padding: 1%;
+	color: rgb(255,255,255);
+}
+
+header h1:before {
+	content: "MME-DEMO";
+	margin-right: 1%;
+	color: rgb(156,0,75);
+	text-transform: capitalize;
+	font-size: 0.65em;
+}
+
+header .button {
+	position: fixed;
+	display: block;
+	right: 1%;
+	top: 1%;
+	padding: 1%;
+	border-radius: 5px;
+	background: rgb(20,220,120);
+	color: rgb(240,240,240);
+}
+
+header .button:hover {
+	cursor: pointer;
+	opacity: 0.8;
+}
+
+footer {
+	position: absolute;
+	bottom: 1%;
+	width: 100%;
+	font-weight: 600;
+	text-align: center;
+	color: rgb(255,255,255);
+}

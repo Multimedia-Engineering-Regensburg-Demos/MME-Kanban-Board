@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MME-DEMO: Kanban Board</title>
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="resources/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="resources/css/app.css"/>
+</head>
+
+<body>
+	<header>
+    	<h1>Kanban Board</h1>
+    	<span class="button new-card">New Card</span>
+	</header>
+	<div id="board">
+		<ul class="list open">
+			<h2>Open</h2>
+		</ul>
+		<ul class="list processing">
+			<h2>Processing</h2>
+		</ul>
+		<ul class="list closed">
+			<h2>Closed</h2>
+		</ul>
+	</div>
+	<footer>
+		Multimedia Engineering | <a href="https://www.uni-regensburg.de">Universität Regensburg</a>
+	</footer>	
+
+	<template id="card-template">
+		<li class="card" data-id="$ID">
+			<textarea class="text">$TEXT</textarea>
+			<span class="icons">
+				<i class="icon left fas fa-chevron-circle-left"></i>
+				<i class="icon right fas fa-chevron-circle-right"></i>
+			</span>
+		</li>
+	</template>		
+</body>
+
+<script type="application/javascript" src="resources/js/Card.js" ></script>
+<script type="application/javascript" src="resources/js/Board.js" ></script>
+<script type="application/javascript" src="resources/js/BoardView.js" ></script>
+<script type="application/javascript" src="resources/js/app.js" ></script>
+
+</html>
