@@ -39,6 +39,9 @@
         "vars-on-top": "error",
         "yoda": "error"
     },
+    "parserOptions": {
+        "sourceType": "module"
+    },
     "env":
     {
         "es6": true,

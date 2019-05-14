@@ -1,30 +1,29 @@
-var KanbanApp = KanbanApp || {};
+/* eslint-env browser */
 
-(function(app) {
-  "use strict";
+import { Observable } from "./Observable.js";
+import { Card, CardEvent } from "./Card.js";
 
-  const LIST_NAMES = ["open", "processing", "closed"];
+const LIST_NAMES = ["open", "processing", "closed"];
 
-  function Board() {
+class Board extends Observable {
+  constructor() {
+    super();
     this.listeners = {};
     this.cards = [];
   }
 
-  Board.prototype.createCardID = function() {
+  createCardID() {
     return this.cards.length + 1;
-  };
+  }
 
-  Board.prototype.createNewCard = function() {
+  createNewCard() {
     let cardID = this.createCardID(),
-      card = new app.Card(cardID, "New Task", LIST_NAMES[0]);
+      card = new Card(cardID, "New Task", LIST_NAMES[0]);
     this.cards.push(card);
-    this.broadcastEvent({
-      type: "cardCreated",
-      card: card,
-    });
-  };
+    this.notifyAll(new CardEvent("cardCreated", card));
+  }
 
-  Board.prototype.findCardByID = function(id) {
+  findCardByID(id) {
     for (let i = 0; i < this.cards.length; i++) {
       let card = this.cards[i];
       if (card.id === id) {
@@ -32,70 +31,43 @@ var KanbanApp = KanbanApp || {};
       }
     }
     return undefined;
-  };
+  }
 
-  Board.prototype.findListPosition = function(listName) {
+  findListPosition(listName) {
     for (let i = 0; i < LIST_NAMES.length; i++) {
       if (LIST_NAMES[i] === listName) {
         return i;
       }
     }
     return undefined;
-  };
+  }
 
-  Board.prototype.updateCardText = function(id, text) {
+  updateCardText(id, text) {
     let card = this.findCardByID(id);
     if (card) {
       card.text = text;
-      this.broadcastEvent({
-        type: "cardUpdated",
-        card: card,
-      });
+      this.notifyAll(new CardEvent("cardUpdated", card));
     }
-  };
+  }
 
-  Board.prototype.moveCardLeft = function(id) {
+  moveCard(id, shift) {
     let card = this.findCardByID(id),
       currentListPositon = this.findListPosition(card.list),
-      newListName = LIST_NAMES[currentListPositon - 1];
+      newListName = LIST_NAMES[currentListPositon + shift];
     if (newListName) {
       card.list = newListName;
-      this.broadcastEvent({
-        type: "cardMoved",
-        card: card,
-      });
+      this.notifyAll(new CardEvent("cardMoved", card));
     }
-  };
+  }
 
-  Board.prototype.moveCardRight = function(id) {
-    let card = this.findCardByID(id),
-      currentListPositon = this.findListPosition(card.list),
-      newListName = LIST_NAMES[currentListPositon + 1];
-    if (newListName) {
-      card.list = newListName;
-      this.broadcastEvent({
-        type: "cardMoved",
-        card: card,
-      });
-    }
-  };
+  moveCardLeft(id) {
+    this.moveCard(id, -1);
+  }
 
-  Board.prototype.broadcastEvent = function(event) {
-    let callbacks = this.listeners[event.type];
-    if (callbacks) {
-      for (let i = 0; i < callbacks.length; i++) {
-        callbacks[i](event);
-      }
-    }
-  };
+  moveCardRight(id) {
+    this.moveCard(id, 1);
+  }
 
-  Board.prototype.addEventListener = function(type, callback) {
-    if (!this.listeners[type]) {
-      this.listeners[type] = [];
-    }
-    this.listeners[type].push(callback);
-  };
+}
 
-  app.Board = Board;
-
-}(KanbanApp));
+export default Board;

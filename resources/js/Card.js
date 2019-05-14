@@ -1,14 +1,22 @@
-var KanbanApp = KanbanApp || {};
+/* eslint-env browser */
 
-(function(app) {
-	"use strict";
+import { Event } from "./Observable.js";
 
-	function Card(id, text, list) {
-		this.id = id;
-		this.text = text;
-		this.list = list;
-	}
+class Card {
 
-	app.Card = Card;
+  constructor(id, text, list) {
+    this.id = id;
+    this.text = text;
+    this.list = list;
+  }
+}
 
-}(KanbanApp));
+class CardEvent extends Event {
+
+  constructor(type, card) {
+    super(type);
+    this.card = card;
+  }
+}
+
+export { Card, CardEvent };
