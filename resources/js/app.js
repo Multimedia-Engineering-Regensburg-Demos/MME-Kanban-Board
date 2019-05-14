@@ -1,12 +1,11 @@
-var KanbanApp = KanbanApp || {};
+/* eslint-env browser */
 
-(function(app) {
-  "use strict";
+import Card from "./Card.js"
+;
+function init() {
+	console.log("Starting Kanban-Board");
+	let myCard = new Card(42);
+	console.log(myCard);
+}
 
-  function init() {
-    console.log("Starting Kanban App");
-  }
-
-  init();
-
-}(KanbanApp));
+init();
