@@ -2,6 +2,10 @@
 
 import { Event } from "./Observable.js";
 
+/**
+ * Prototyp zur Repräsentation einer einzelnen (logischen) Karte im Board.
+ */
+
 class Card {
 
   constructor(id, text, list) {
@@ -9,7 +13,13 @@ class Card {
     this.text = text;
     this.list = list;
   }
+
 }
+
+/**
+ * Prototyp zur Kommunikation von Events im Kontext einer Karte. Basiert auf
+ * dem importierten Event-Prototypen.
+ */
 
 class CardEvent extends Event {
 
@@ -17,6 +27,11 @@ class CardEvent extends Event {
     super(type);
     this.card = card;
   }
+
 }
+
+/**
+ * (Named) Export der beiden erstellten Prototypen Card und CardEvent.
+ */
 
 export { Card, CardEvent };
