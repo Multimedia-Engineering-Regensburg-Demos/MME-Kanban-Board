@@ -2,7 +2,7 @@
 
 class Observable {
   constructor() {
-    this.listener = {};
+    this.listeners = {};
   }
 
   notifyAll(event) {

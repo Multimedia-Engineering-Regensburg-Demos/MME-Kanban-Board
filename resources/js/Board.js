@@ -3,71 +3,100 @@
 import { Observable } from "./Observable.js";
 import { Card, CardEvent } from "./Card.js";
 
-const LIST_NAMES = ["open", "processing", "closed"];
+const LIST_NAMES = ["open", "processing", "closed"],
+  DEFAULT_CARD_TEXT = "New Task",
+  DEFAULT_LIST = LIST_NAMES[0];
+
+/**
+ *  Alle Karten werden in einer Map gespeichert. Die ID der jeweiligen Karte wird
+ *  als Schlüssel verwendet.
+ *
+ * Siehe auch: https://developer.mozilla.org/de/docs/Web/JavaScript/Reference/Global_Objects/Map
+ */
+var cards = new Map();
+
+function createCardID() {
+  return cards.size + 1;
+}
+
+function getListsPosition(listname) {
+  let position = LIST_NAMES.indexOf(listname);
+  if (position === -1) {
+    return undefined;
+  }
+  return position;
+}
+
+function createNewCard() {
+  let cardID = createCardID(),
+    card = new Card(cardID, DEFAULT_CARD_TEXT, DEFAULT_LIST);
+  cards.set(card.id, card);
+  return card;
+}
+
+function updateCard(card) {
+
+}
+
+function updateCardWithID(id, newText) {
+  let card = cards.get(id);
+  if (card) {
+    card.text = newText;
+    return card;
+  }
+  return null;
+}
+
+function moveCardInDirection(id, shift) {
+  let card = cards.get(id),
+    currentListPositon = getListsPosition(card.list),
+    newListName = LIST_NAMES[currentListPositon + shift];
+  if (newListName) {
+    card.list = newListName;
+    return card;
+  }
+  return null;
+}
 
 class Board extends Observable {
+
   constructor() {
     super();
-    this.listeners = {};
-    this.cards = [];
   }
 
-  createCardID() {
-    return this.cards.length + 1;
-  }
-
-  createNewCard() {
-    let cardID = this.createCardID(),
-      card = new Card(cardID, "New Task", LIST_NAMES[0]);
-    this.cards.push(card);
-    this.notifyAll(new CardEvent("cardCreated", card));
-  }
-
-  findCardByID(id) {
-    for (let i = 0; i < this.cards.length; i++) {
-      let card = this.cards[i];
-      if (card.id === id) {
-        return card;
-      }
+  createCard() {
+    let card = createNewCard();
+    if (card !== null) {
+      this.notifyAll(new CardEvent("cardCreated", card));
     }
-    return undefined;
   }
 
-  findListPosition(listName) {
-    for (let i = 0; i < LIST_NAMES.length; i++) {
-      if (LIST_NAMES[i] === listName) {
-        return i;
-      }
-    }
-    return undefined;
-  }
-
-  updateCardText(id, text) {
-    let card = this.findCardByID(id);
-    if (card) {
-      card.text = text;
+  updateCard(id, text) {
+    let card = updateCardWithID(id, text);
+    if (card !== null) {
       this.notifyAll(new CardEvent("cardUpdated", card));
+
     }
   }
 
-  moveCard(id, shift) {
-    let card = this.findCardByID(id),
-      currentListPositon = this.findListPosition(card.list),
-      newListName = LIST_NAMES[currentListPositon + shift];
-    if (newListName) {
-      card.list = newListName;
+  moveCardToLeft(id) {
+    let card = moveCardInDirection(id, -1);
+    if (card !== null) {
       this.notifyAll(new CardEvent("cardMoved", card));
     }
   }
 
-  moveCardLeft(id) {
-    this.moveCard(id, -1);
-  }
-
-  moveCardRight(id) {
-    this.moveCard(id, 1);
+  moveCardToRight(id) {
+    let card = moveCardInDirection(id, 1);
+    if (card !== null) {
+      this.notifyAll(new CardEvent("cardMoved", card));
+    }
   }
 
 }
 
-export default Board;
+/**
+ * Aus dem Modul herausgegeben wird eine "instanziierte" Version des Proxy-Objekts,
+ * dessen Methoden die modul-internen, nicht nach Außen gegebenen, Funktionen nutzt.
+ */
+export default new Board();

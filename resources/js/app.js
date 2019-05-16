@@ -1,54 +1,53 @@
 /* eslint-env browser */
 
+/**
+ * Importiert werden hier keine Konstruktor-Funktionen sondern die
+ * bereits initialisierten und direkt verwendbaren Objekte
+ */
 import Board from "./Board.js";
 import BoardView from "./BoardView.js";
 
-
-var board,
-  boardView;
-
 function init() {
   initBoard();
-  initUI();
+  initBoardView();
 }
 
 function initBoard() {
-  board = new Board();
-  board.addEventListener("cardCreated", onCardCreated);
-  board.addEventListener("cardMoved", onCardMoved);
+  Board.addEventListener("cardCreated", onCardCreated);
+  Board.addEventListener("cardMoved", onCardMoved);
 }
 
-function initUI() {
+function initBoardView() {
   let boardEl = document.querySelector("#board"),
     cardButton = document.querySelector(".button.new-card");
-  boardView = new BoardView(boardEl);
-  boardView.addEventListener("elementTextUpdated", onElementTextUpdated);
-  boardView.addEventListener("moveButtonClicked",
+  BoardView.setElement(boardEl);
+  BoardView.addEventListener("elementTextUpdated", onElementTextUpdated);
+  BoardView.addEventListener("moveButtonClicked",
     onElementMoveButtonClicked);
   cardButton.addEventListener("click", onNewCardButtonClicked);
 }
 
 function onCardCreated(event) {
-  boardView.renderCard(event.card);
+  BoardView.renderCard(event.card);
 }
 
 function onCardMoved(event) {
-  boardView.renderCard(event.card);
+  BoardView.renderCard(event.card);
 }
 
 function onNewCardButtonClicked() {
-  board.createNewCard();
+  Board.createCard();
 }
 
 function onElementTextUpdated(event) {
-  board.updateCardText(event.cardID, event.value);
+  Board.updateCard(event.cardID, event.text);
 }
 
 function onElementMoveButtonClicked(event) {
-  if (event.value === "right") {
-    board.moveCardRight(event.cardID);
-  } else if (event.value === "left") {
-    board.moveCardLeft(event.cardID);
+  if (event.direction === "right") {
+    Board.moveCardToRight(event.cardID);
+  } else if (event.direction === "left") {
+    Board.moveCardToLeft(event.cardID);
   }
 }
 

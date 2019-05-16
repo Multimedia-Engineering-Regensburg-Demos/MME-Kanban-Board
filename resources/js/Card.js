@@ -1,6 +1,6 @@
 /* eslint-env browser */
 
-import { Event } from "./Observable.js";
+import { Observable, Event } from "./Observable.js";
 
 class Card {
 
@@ -9,6 +9,7 @@ class Card {
     this.text = text;
     this.list = list;
   }
+
 }
 
 class CardEvent extends Event {
@@ -17,6 +18,7 @@ class CardEvent extends Event {
     super(type);
     this.card = card;
   }
+
 }
 
 export { Card, CardEvent };
