@@ -1,0 +1,23 @@
+{
+  "name": "mme-kanban-board",
+  "version": "1.0.0",
+  "description": "A simple Kanban board app",
+  "main": "index.js",
+  "dependencies": {
+    "http-server": "^0.11.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Multimedia-Engineering-Regensburg-Demos/MME-Kanban-Board.git"
+  },
+  "author": "Alexander Bazo <alexander.bazo@ur.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Multimedia-Engineering-Regensburg-Demos/MME-Kanban-Board/issues"
+  },
+  "homepage": "https://github.com/Multimedia-Engineering-Regensburg-Demos/MME-Kanban-Board#readme"
+}
